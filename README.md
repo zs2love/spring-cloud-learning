@@ -44,7 +44,21 @@ public interface ComputeClient {
 ## Netflix Hystrix
 在Spring Cloud中使用了Hystrix 来实现断路器的功能。Hystrix是Netflix开源的微服务框架套件之一，该框架目标在于通过控制那些访问远程系统、服务和第三方库的节点，从而对延迟和故障提供更强大的容错能力。Hystrix具备拥有回退机制和断路器功能的线程和信号隔离，请求缓存和请求打包，以及监控和配置等功能
 
+**hystrix默认是关闭状态，必须在application中配置feign.hystrix.enabled=true才能正常使用，否则断路器不生效**
 
 
+## Zuul
+加入Zuul的POM引用spring-cloud-starter-zuul，接着加入路由来进行转发配置。
+
+```
+# routes to service id
+zuul.routes.api-a.path=/api-a/**
+zuul.routes.api-a.serviceId=service-A
+zuul.routes.api-b.path=/api-b/**
+zuul.routes.api-b.serviceId=service-B
+eureka.client.serviceUrl.defaultZone=http://localhost:1111/eureka/
+```
+
+这样就可以通过相应的url进行相应service的调用了。
 
 转载自：http://blog.didispace.com/springcloud3/
