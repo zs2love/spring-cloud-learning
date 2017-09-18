@@ -33,7 +33,7 @@ public class ConsumerController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public String delete(@RequestParam(value = "a") Integer a, @RequestParam(value = "a") Integer b) {
+	public String delete(@RequestParam(value = "a") Integer a, @RequestParam(value = "b") Integer b) {
 		return mybatisService.deleteService(a, b);
 	}
 
