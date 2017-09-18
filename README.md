@@ -1,4 +1,4 @@
-# This project to learn and understand Spring Cloud, all the material is getting from http://blog.didispace.com/springcloud3/, thanks for the great material for learning.
+## This project to learn and understand Spring Cloud, all the material is getting from http://blog.didispace.com/springcloud3/, thanks for the great material for learning.
 
 # Ribbon
 Expose the interface and call the clients which have been registered in Eureka.
@@ -47,7 +47,9 @@ public interface ComputeClient {
 **hystrix默认是关闭状态，必须在application中配置feign.hystrix.enabled=true才能正常使用，否则断路器不生效**
 
 
-## Zuul
+# Zuul
+
+## Zuul 配置
 加入Zuul的POM引用spring-cloud-starter-zuul，接着加入路由来进行转发配置。
 
 ```
@@ -61,4 +63,51 @@ eureka.client.serviceUrl.defaultZone=http://localhost:1111/eureka/
 
 这样就可以通过相应的url进行相应service的调用了。
 
-转载自：http://blog.didispace.com/springcloud3/
+## Zuul Filter
+我们可以利用Zuul对于路由进行过滤，只需要集成Zuul Filter，实现四个方法：
+
+``` java
+public class AccessFilter extends ZuulFilter  {
+    private static Logger log = LoggerFactory.getLogger(AccessFilter.class);
+    @Override
+    public String filterType() {
+        return "pre";
+    }
+    @Override
+    public int filterOrder() {
+        return 0;
+    }
+    @Override
+    public boolean shouldFilter() {
+        return true;
+    }
+    @Override
+    public Object run() {
+        RequestContext ctx = RequestContext.getCurrentContext();
+        HttpServletRequest request = ctx.getRequest();
+        log.info(String.format("%s request to %s", request.getMethod(), request.getRequestURL().toString()));
+        Object accessToken = request.getParameter("accessToken");
+        if(accessToken == null) {
+            log.warn("access token is empty");
+            ctx.setSendZuulResponse(false);
+            ctx.setResponseStatusCode(401);
+            return null;
+        }
+        log.info("access token ok");
+        return null;
+    }
+}
+```
+
+1. filterType：返回一个字符串代表过滤器的类型，在zuul中定义了四种不同生命周期的过滤器类型，具体如下：
+* pre：可以在请求被路由之前调用
+* routing：在路由请求时候被调用
+* post：在routing和error过滤器之后被调用
+* error：处理请求时发生错误时被调用
+2. filterOrder：通过int值来定义过滤器的执行顺序
+* shouldFilter：返回一个boolean类型来判断该过滤器是否要执行，所以通过此函数可实现过滤器的开关。在上例中，我们直接返回true，所以该过滤器总是生效。
+3. run：过滤器的具体逻辑。
+* 需要注意，这里我们通过ctx.setSendZuulResponse(false)令zuul过滤该请求，不对其进行路由，然后通过ctx.setResponseStatusCode(401)设置了其返回的错误码，当然我们也可以进一步优化我们的返回，比如，通过ctx.setResponseBody(body)对返回body内容进行编辑等。
+
+
+# 转载自：http://blog.didispace.com/springcloud3/
