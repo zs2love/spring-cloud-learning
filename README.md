@@ -47,6 +47,22 @@ public interface ComputeClient {
 **hystrix默认是关闭状态，必须在application中配置feign.hystrix.enabled=true才能正常使用，否则断路器不生效**
 
 
+# Config Server
+1. 具体过程就是在git或者其他类似的地方创建一个项目，然后负责存放属性文件，文件的命名是以{application}-{profile}.properties这种形式。
+
+2. 创建一个Config Server去读取这个在git上的项目，通过配置。
+spring.cloud.config.server.git.uri=https://github.com/zs2love/spring-cloud-learning/
+spring.cloud.config.server.git.searchPaths=config-repo
+
+3. 将Config Server加入到Spring Cloud中，在server中注册，这样就可以被其他的用这个properties的程序所使用。
+
+4. 在其他的注册在同意server中的程序，只需要指定application, profile还有label (branch)就可以使用相应的属性了。
+```java
+spring.application.name=app
+spring.cloud.config.profile=dev
+spring.cloud.config.label=master
+```
+
 # Zuul
 
 ## Zuul 配置
