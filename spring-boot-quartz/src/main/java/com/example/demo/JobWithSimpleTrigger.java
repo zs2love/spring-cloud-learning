@@ -3,6 +3,7 @@
  */
 package com.example.demo;
 
+import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
@@ -13,11 +14,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
+import org.springframework.stereotype.Component;
 
 /**
  * @author shuai.b.zhang
  *
  */
+@Component
+@DisallowConcurrentExecution
 public class JobWithSimpleTrigger implements Job {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 

@@ -17,6 +17,8 @@
 			<!-- <property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect" /> -->
 			<property name="jboss.as.jpa.providerModule" value="hibernate3-bundled" />
 		</properties>
+		
+		
 
 	</persistence-unit>
 

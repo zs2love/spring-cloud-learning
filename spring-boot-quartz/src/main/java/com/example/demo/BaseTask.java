@@ -11,10 +11,12 @@ import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
+import org.quartz.TriggerKey;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -28,18 +30,36 @@ public class BaseTask implements Job {
 
 	@PostConstruct // 相当于init-method
 	public void init() {
-		// jobDetail 获取对应运行类的名称，设置成其Job名称及Job组
-		JobDetail jobDetail = JobBuilder.newJob(this.getClass())
-				.withIdentity(this.getClass().getSimpleName() + "_Job", this.getClass().getSimpleName() + "_group")
-				.build();
-		// 通过Cron格式时间定义执行时间
-		String cronExpress = getCronExpression();
-		// trigger 获取对应运行类的名称，设置成其Trigger名称及Trigger组
-		Trigger trigger = TriggerBuilder.newTrigger()
-				.withIdentity(this.getClass().getSimpleName() + "_Trigger", this.getClass().getSimpleName() + "_group")
-				.startNow().withSchedule(CronScheduleBuilder.cronSchedule(cronExpress)).build();
 
+		JobKey jobkey = JobKey.jobKey(this.getClass().getSimpleName() + "_Job",
+				this.getClass().getSimpleName() + "_group");
+		JobDetail jobDetail = null;
+		TriggerKey triggerKey = TriggerKey.triggerKey(this.getClass().getSimpleName() + "_Trigger",
+				this.getClass().getSimpleName() + "_group");
+		Trigger trigger = null;
 		try {
+			if (!scheduler.checkExists(jobkey)) {
+				// jobDetail 获取对应运行类的名称，设置成其Job名称及Job组
+				jobDetail = JobBuilder.newJob(this.getClass()).withIdentity(this.getClass().getSimpleName() + "_Job",
+						this.getClass().getSimpleName() + "_group").build();
+
+			} else {
+				jobDetail = scheduler.getJobDetail(jobkey);
+				scheduler.deleteJob(jobkey);
+			}
+			if (!scheduler.checkExists(triggerKey)) {
+				// 通过Cron格式时间定义执行时间
+				String cronExpress = getCronExpression();
+
+				// trigger 获取对应运行类的名称，设置成其Trigger名称及Trigger组
+				trigger = TriggerBuilder.newTrigger()
+						.withIdentity(this.getClass().getSimpleName() + "_Trigger",
+								this.getClass().getSimpleName() + "_group")
+						.startNow().withSchedule(CronScheduleBuilder.cronSchedule(cronExpress)).build();
+			} else {
+				trigger = scheduler.getTrigger(triggerKey);
+			}
+
 			scheduler.scheduleJob(jobDetail, trigger);
 		} catch (SchedulerException e) {
 			e.printStackTrace();

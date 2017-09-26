@@ -34,6 +34,7 @@ import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 @ConditionalOnProperty(name = "quartz.enabled")
 public class QuartzSchedule {
 
+	@Autowired
 	List<Trigger> listOfTrigger;
 	@Autowired
 	private MyJobFactory myJobFactory;

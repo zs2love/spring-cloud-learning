@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component
-public class MyJobFactory extends AdaptableJobFactory{
+public class MyJobFactory extends AdaptableJobFactory {
 	@Autowired
 	private AutowireCapableBeanFactory capableBeanFactory;
 
@@ -22,6 +22,7 @@ public class MyJobFactory extends AdaptableJobFactory{
 	protected Object createJobInstance(TriggerFiredBundle bundle) throws Exception {
 		// 调用父类的方法
 		Object jobInstance = super.createJobInstance(bundle);
+		System.out.println("autowire the bean" + jobInstance);
 		// 进行注入
 		capableBeanFactory.autowireBean(jobInstance);
 		return jobInstance;
