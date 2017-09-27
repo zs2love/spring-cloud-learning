@@ -13,12 +13,49 @@ package com.example.demo.util;
 
 import java.util.Collection;
 
+import com.google.gson.Gson;
+
 /**
  * The Class AppUtil.
  *
  * @author pavan.solapure
  */
 public class AppUtil {
+	
+	
+	
+	
+	/**
+	 * Gets the bean to json string.
+	 *
+	 * @param beanClass the bean class
+	 * @return the bean to json string
+	 */
+	public static String getBeanToJsonString(Object beanClass) {
+		return new Gson().toJson(beanClass);
+	}
+	
+	/**
+	 * Gets the bean to json string.
+	 *
+	 * @param beanClasses the bean classes
+	 * @return the bean to json string
+	 */
+	public static String getBeanToJsonString(Object... beanClasses) {
+		StringBuilder stringBuilder = new StringBuilder();
+		for (Object beanClass : beanClasses) {
+			stringBuilder.append(getBeanToJsonString(beanClass));
+			stringBuilder.append(", ");
+		}
+		return stringBuilder.toString();
+	}
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * Checks if is object empty.
 	 *
