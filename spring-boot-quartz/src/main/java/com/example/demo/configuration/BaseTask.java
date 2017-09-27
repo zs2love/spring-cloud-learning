@@ -37,7 +37,9 @@ public class BaseTask implements Job {
 		TriggerKey triggerKey = TriggerKey.triggerKey(this.getClass().getSimpleName() + "_Trigger",
 				this.getClass().getSimpleName() + "_group");
 		Trigger trigger = null;
+		
 		try {
+			scheduler.deleteJob(jobkey);
 			if (!scheduler.checkExists(jobkey)) {
 				// jobDetail 获取对应运行类的名称，设置成其Job名称及Job组
 				jobDetail = JobBuilder.newJob(this.getClass()).withIdentity(this.getClass().getSimpleName() + "_Job",

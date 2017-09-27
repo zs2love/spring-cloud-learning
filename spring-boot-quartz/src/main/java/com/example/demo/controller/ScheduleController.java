@@ -39,7 +39,7 @@ public class ScheduleController {
 	public String getVal(@RequestParam(value = "key", defaultValue = "World") String key) {
 		Map<String, String> mapOfKeyValue = new HashMap<String, String>();
 		mapOfKeyValue.put(key, PropertiesUtils.getProperty(key));
-		mapOfKeyValue.put("con.key2", conKey2);
+//		mapOfKeyValue.put("con.key2", conKey2);
 		return AppUtil.getBeanToJsonString(mapOfKeyValue);
 	}
 
