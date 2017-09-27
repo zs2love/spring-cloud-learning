@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.example.demo;
+package com.example.demo.job;
 
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
@@ -15,6 +15,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 import org.springframework.stereotype.Component;
+
+import com.example.demo.configuration.QuartzSchedule;
 
 /**
  * @author shuai.b.zhang

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.example.demo;
+package com.example.demo.configuration;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,6 +23,8 @@ import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
+
+import com.example.demo.util.AppUtil;
 
 /**
  * @author shuai.b.zhang

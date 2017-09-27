@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.example.demo;
+package com.example.demo.util;
 
 /**
  * @author shuai.b.zhang

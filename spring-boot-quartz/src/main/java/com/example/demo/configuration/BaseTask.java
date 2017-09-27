@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.example.demo;
+package com.example.demo.configuration;
 
 import javax.annotation.PostConstruct;
 
