@@ -61,6 +61,7 @@ public class TestLambda {
 			});
 		Collections.sort(pList,
                 (Person x, Person y) -> x.getAge().compareTo(y.getAge()));
+		
 
 
 		Collections.sort(pList, Comparator.comparing((Person pp) -> pp.getAge()));
