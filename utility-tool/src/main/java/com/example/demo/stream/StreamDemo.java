@@ -5,8 +5,10 @@ package com.example.demo.stream;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * @author shuai.b.zhang
@@ -30,6 +32,15 @@ public class StreamDemo {
 		List<Integer> nums = Arrays.asList(1, 3, null, 8, 7, 8, 13, 10);
 		nums.stream().filter(num -> num != null).distinct().forEach(System.out::println);
 
+		List<Integer> nums2 = Arrays.asList(1, 2, 3, null, null, 3, 4, 10);
+		List<Integer> distinctList = nums2.stream().filter(num -> num != null).distinct().collect(Collectors.toList());
+		System.out.println("Distinct list contains: ");
+		distinctList.forEach(e->System.out.print(e + ","));
+		
+		int value = Stream.of(1,2,3,4).reduce(100, (sum, ele) -> sum - ele);
+		Optional<Integer> value2 = Stream.of(1,2,3,4).reduce((sum, ele) -> sum-ele);
+		System.out.println(value );
+		System.out.println(value2 );
 	}
 
 }
