@@ -11,29 +11,24 @@ public class Buffer {
 		lock = this;
 	}
 
-	public void write() {
+	public void write() throws InterruptedException {
 
 		synchronized (lock) {
 
 			long startTime = System.currentTimeMillis();
 
 			System.out.println("开始往这个buff写入数据…");
+			while (System.currentTimeMillis()
 
-			for (;;)// 模拟要处理很长时间
+					- startTime < 10000) {
 
-			{
-
-				if (System.currentTimeMillis()
-
-						- startTime > Integer.MAX_VALUE)
-
-					break;
-
+				
+				
 			}
-
-			System.out.println("终于写完了");
-
+			Thread.sleep(20000);
 		}
+
+		System.out.println("终于写完了");
 
 	}
 

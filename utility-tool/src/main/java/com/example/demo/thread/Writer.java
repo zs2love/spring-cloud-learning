@@ -18,7 +18,12 @@ public class Writer extends Thread {
 
 	public void run() {
 
-		buff.write();
+		try {
+			buff.write();
+		} catch (InterruptedException e) {
+			
+			e.printStackTrace();
+		}
 
 	}
 
