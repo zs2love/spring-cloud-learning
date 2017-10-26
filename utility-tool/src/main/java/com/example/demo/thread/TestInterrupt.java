@@ -21,6 +21,7 @@ public class TestInterrupt {
 		final Reader reader = new Reader(buff);
 		// Start the writer but writer first wait for 10 secs.
 		writer.start();
+		
 		reader.start();
 		/**
 		 * The interrupt method is directly called, but since the writer thread is still
@@ -29,7 +30,7 @@ public class TestInterrupt {
 		writer.interrupt();
 
 		// The interrupted status should be false.
-		System.out.println(writer.interrupted());
+		System.out.println("13");
 
 		/**
 		 * After 10 secs, after the writer thread is in sleep state, the exception
